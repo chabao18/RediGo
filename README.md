@@ -1,8 +1,8 @@
 <h1 align="center">
 	<img
-		width="300"
+		width="380"
 		alt="RediGo"
-		src="docs/images/redigo.png">
+		src="docs/images/redigo.jpg">
 </h1>
 
 <h3 align="center">
