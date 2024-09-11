@@ -1,0 +1,5 @@
+[INFO][server.go:40] 2024/09/11 22:07:10 Start listening on 0.0.0.0:6379
+[INFO][server.go:71] 2024/09/11 22:13:25 Accepted connection
+[INFO][echo.go:49] 2024/09/11 22:14:49 Connection closed
+[INFO][server.go:51] 2024/09/11 22:14:58 Shutting down
+[INFO][echo.go:65] 2024/09/11 22:14:58 Handler shutting down
