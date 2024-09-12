@@ -37,7 +37,7 @@ func ListenAndServeWithSignal(cfg *Config, handler tcp.Handler) error {
 	if err != nil {
 		return err
 	}
-	logger.Info("Start listening on " + cfg.Address)
+	logger.Info("start listening on " + cfg.Address)
 
 	// Start the server with the specified handler and close channel.
 	ListenAndServe(listener, handler, closeChan)
@@ -48,7 +48,7 @@ func ListenAndServeWithSignal(cfg *Config, handler tcp.Handler) error {
 func ListenAndServe(listener net.Listener, handler tcp.Handler, closeChan <-chan struct{}) {
 	go func() {
 		<-closeChan
-		logger.Info("Shutting down")
+		logger.Info("shutting down")
 		_ = listener.Close()
 		_ = handler.Close()
 	}()
@@ -68,7 +68,7 @@ func ListenAndServe(listener net.Listener, handler tcp.Handler, closeChan <-chan
 			break
 		}
 
-		logger.Info("Accepted connection")
+		logger.Info("accepted connection")
 		waitDone.Add(1)
 		go func() {
 			defer waitDone.Done()
