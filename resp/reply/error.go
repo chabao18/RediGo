@@ -3,7 +3,7 @@ package reply
 // UnknownErrReply represents UnknownErr
 type UnknownErrReply struct{}
 
-var unknownErrBytes = []byte("-Err unknown\r\n")
+var unknownErrBytes = []byte("-ERR unknown\r\n")
 
 // ToBytes marshals redis.Reply
 func (r *UnknownErrReply) ToBytes() []byte {
@@ -38,7 +38,7 @@ func MakeArgNumErrReply(cmd string) *ArgNumErrReply {
 // SyntaxErrReply represents meeting unexpected arguments
 type SyntaxErrReply struct{}
 
-var syntaxErrBytes = []byte("-Err syntax error\r\n")
+var syntaxErrBytes = []byte("-ERR syntax error\r\n")
 var theSyntaxErrReply = &SyntaxErrReply{}
 
 // MakeSyntaxErrReply creates syntax error
