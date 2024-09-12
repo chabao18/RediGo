@@ -3,8 +3,8 @@ package main
 import (
 	"RediGo/config"
 	"RediGo/lib/logger"
+	"RediGo/resp/handler"
 	"RediGo/tcp"
-	EchoHandler "RediGo/tcp"
 	"fmt"
 	"os"
 )
@@ -41,7 +41,8 @@ func main() {
 				config.Properties.Bind,
 				config.Properties.Port),
 		},
-		EchoHandler.MakeHandler())
+		// 可传入不同的handler
+		handler.MakeHandler())
 	if err != nil {
 		logger.Error(err)
 	}
