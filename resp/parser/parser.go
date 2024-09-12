@@ -260,22 +260,29 @@ func parseSingleLineReply(msg []byte) (resp.Reply, error) {
 	return result, nil
 }
 
-// parseSingleLineReply 解析来自服务器的单行回复
-// The parseSingleLineReply function parses a single-line reply from the server
+// readBody 函数读取并处理 RESP 协议的多行回复或块回复的内容。
+// readBody reads and processes the body of a RESP multi-bulk or bulk reply.
 func readBody(msg []byte, state *readState) error {
+	// 去掉消息末尾的 "\r\n" 后读取实际内容
+	// Remove the trailing "\r\n" from the message and read the actual content
 	line := msg[0 : len(msg)-2]
 	var err error
+
 	if line[0] == '$' {
-		// bulk reply
+		// 处理块回复
+		// Handle bulk reply
 		state.bulkLen, err = strconv.ParseInt(string(line[1:]), 10, 64)
 		if err != nil {
 			return errors.New("protocol error: " + string(msg))
 		}
-		if state.bulkLen <= 0 { // null bulk in multi bulks
-			state.args = append(state.args, []byte{})
+		if state.bulkLen <= 0 { // 处理多块中的空块回复
+			// Handle null bulk in multi-bulk replies
+			state.args = append(state.args, []byte{}) // 空参数
 			state.bulkLen = 0
 		}
 	} else {
+		// 处理非块回复，将读取的行内容添加到参数列表中
+		// Handle non-bulk replies, append the line content to the argument list
 		state.args = append(state.args, line)
 	}
 	return nil
