@@ -23,12 +23,9 @@ var (
 // RespHandler 实现了 tcp.Handler，用作 Redis 请求的处理器
 // RespHandler implements the tcp.Handler interface and acts as a handler for Redis requests
 type RespHandler struct {
-	activeConn sync.Map // 活跃连接的存储，key 是客户端，value 是占位符
-	// Stores active connections, with client as key and placeholder as value
-	db databaseface.Database // Redis 数据库实例
-	// Redis database instance
-	closing atomic.Boolean // 标志是否拒绝新的连接和请求
-	// Indicator for whether to refuse new connections and requests
+	activeConn sync.Map              // 活跃连接的存储，key 是客户端，value 是占位符
+	db         databaseface.Database // Redis 数据库实例
+	closing    atomic.Boolean        // 标志是否拒绝新的连接和请求
 }
 
 // MakeHandler 创建一个 RespHandler 实例
@@ -36,7 +33,6 @@ type RespHandler struct {
 func MakeHandler() *RespHandler {
 	var db databaseface.Database
 	db = database.NewEchoDatabase() // 使用 Echo 数据库作为存储引擎
-	// Use Echo database as the storage engine
 	return &RespHandler{
 		db: db,
 	}
@@ -106,6 +102,7 @@ func (h *RespHandler) Handle(ctx context.Context, conn net.Conn) {
 		// Execute the database command and get the result
 		result := h.db.Exec(client, r.Args)
 		if result != nil {
+			logger.Info("写会结果ing")
 			_ = client.Write(result.ToBytes()) // 将结果写回客户端
 		} else {
 			_ = client.Write(unknownErrReplyBytes) // 如果没有结果，返回默认错误信息
